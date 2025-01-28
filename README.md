@@ -47,7 +47,7 @@ Ensure you have the following installed:
    cd multi-tenancy-auth-system
 2.  Install dependencies:
     ```bash
-  npm install
+    npm install
 3.  Set up your .env file:
     -  Copy the .env.example file and rename it to .env.
     -  Configure the environment variables for your setup.
@@ -73,18 +73,18 @@ Visit /api-docs after running the application to access the API documentation (p
 
 ##  Project Structure
     ```bash
-    .
-├── config/              # Configuration files (e.g., database, environment)
-├── models/              # Database models for tenants, users, roles, etc.
-├── adapters/            # Database adapters (MongoDB, PostgreSQL, MySQL)
-├── services/            # Business logic for auth, tenants, RBAC
-├── routes/              # API route definitions
-├── middleware/          # Middleware (auth, tenant resolution, etc.)
-├── utils/               # Utility functions and helpers
-├── tests/               # Unit and integration tests
-├── docs/                # API documentation and guides
-├── .github/             # GitHub templates and workflows
-└── README.md            # Project README
+    
+    ├── config/              # Configuration files (e.g., database, environment)
+    ├── models/              # Database models for tenants, users, roles, etc.
+    ├── adapters/            # Database adapters (MongoDB, PostgreSQL, MySQL)
+    ├── services/            # Business logic for auth, tenants, RBAC
+    ├── routes/              # API route definitions
+    ├── middleware/          # Middleware (auth, tenant resolution, etc.)
+    ├── utils/               # Utility functions and helpers
+    ├── tests/               # Unit and integration tests
+    ├── docs/                # API documentation and guides
+    ├── .github/             # GitHub templates and workflows
+    └── README.md            # Project README
 ```
 
 
