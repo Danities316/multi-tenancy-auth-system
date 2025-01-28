@@ -85,19 +85,20 @@ Visit /api-docs after running the application to access the API documentation (p
     ├── docs/                # API documentation and guides
     ├── .github/             # GitHub templates and workflows
     └── README.md            # Project README
-```
-
-
+---
 ##  Contributing
 Contributions are welcome! Please follow these steps:
 1.  Fork the repository.
 2.  Create a new branch for your feature or fix:
-   `git checkout -b feature-name`
-3.  Commit your changes:
-   `git commit -m "Add your message here"`
-4.  Push to your branch:
-     `git push origin feature-name`
-5.  Open a pull request.
+     ```bash
+    git checkout -b feature-name
+4.  Commit your changes:
+    ```bash
+    git commit -m "Add your message here"
+6.  Push to your branch:
+   ```bash
+   git push origin feature-name`
+8.  Open a pull request.
 
 For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
 
