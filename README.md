@@ -117,7 +117,7 @@ Check the [issues](https://github.com/Danities316/multi-tenancy-auth-system/edit
 This project is licensed under the [MIT License](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/issue).
 ---
 ##  Acknowledgements
--  {Node.js](https://nodejs.org/en)
+-  [Node.js](https://nodejs.org/en)
 -  [Express.js](https://expressjs.com/)
 -  [Knex.js](https://knexjs.org/)
 -  [JWT](https://jwt.io/)
