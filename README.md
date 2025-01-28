@@ -95,9 +95,9 @@ Contributions are welcome! Please follow these steps:
 4.  Commit your changes:
     ```bash
     git commit -m "Add your message here"
-6.  Push to your branch:
+6. Push to your branch:
    ```bash
-   git push origin feature-name
+     git push origin feature-name
 7.  Open a pull request.
 
 For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
