@@ -101,7 +101,7 @@ Contributions are welcome! Please follow these steps:
 8.  Open a pull request.
 
 For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
-
+---
 
 ## Roadmap
 
@@ -111,18 +111,18 @@ Add support for additional databases (e.g., SQLite).
 -  Implement multi-factor authentication (MFA).
 -  Add email notifications for tenant management.
 Check the [issues](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/issue) page to see what’s in progress.
-
+---
 ## License
 
 This project is licensed under the [MIT License](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/issue).
-
+---
 ##  Acknowledgements
 -  {Node.js}(https://nodejs.org/en)
 -  [Express.js](https://expressjs.com/)
 -  [Knex.js](https://knexjs.org/)
 -  [JWT](https://jwt.io/)
 
-
+---
 ##  Feedback and Support
 For feedback or support, please open an issue or start a discussion in the repository.
 
