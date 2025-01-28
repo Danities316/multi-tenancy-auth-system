@@ -55,8 +55,7 @@ Ensure you have the following installed:
     ```bash
       npm run migrate
 5.  Start the application:
-    ```bash
-      npm start
+    `npm start`
 ##  API Documentation
 
 Visit /api-docs after running the application to access the API documentation (powered by Swagger).
@@ -86,20 +85,18 @@ Visit /api-docs after running the application to access the API documentation (p
 ├── docs/                # API documentation and guides
 ├── .github/             # GitHub templates and workflows
 └── README.md            # Project README
+```
 
 
 ##  Contributing
 Contributions are welcome! Please follow these steps:
 1.  Fork the repository.
 2.  Create a new branch for your feature or fix:
-   ```bash
-  git checkout -b feature-name
+   `git checkout -b feature-name`
 3.  Commit your changes:
-   ```bash
-  git commit -m "Add your message here"
+   `git commit -m "Add your message here"`
 4.  Push to your branch:
-     ```bash
-    git push origin feature-name
+     `git push origin feature-name`
 5.  Open a pull request.
 
 For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
