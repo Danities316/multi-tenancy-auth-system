@@ -98,11 +98,11 @@ Contributions are welcome! Please follow these steps:
 6.  Push to your branch:
    ```bash
    git push origin feature-name
-8.  Open a pull request.
+7.  Open a pull request.
 
 For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
----
 
+---
 ## Roadmap
 
 Here’s what’s planned for future releases:
