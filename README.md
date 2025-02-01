@@ -56,6 +56,25 @@ Ensure you have the following installed:
       npm run migrate
 5.  Start the application:
     `npm start`
+
+ ## 📌 Setting Up Your Database
+ This open-source project supports **MongoDB, PostgreSQL, and MySQL**. You can configure your preferred database in the `.env` file.
+ ### 1️⃣ **Choose Your Database**
+ Edit `.env` and set your database type:
+ ```bash
+ DB_TYPE=postgres DB_HOST=localhost DB_USER=myuser DB_PASSWORD=mypassword DB_NAME=mydatabase
+ ```bash
+ ### 2️⃣ **Start the Server**
+ Run: npm run dev
+
+ ```bash
+ ### 3️⃣ **Multi-Tenant Support**
+ If you're running **multi-tenant mode**, send requests with an **`X-Tenant-ID`** header.
+ **Example:**
+ X-Tenant-ID: tenant123
+
+npm run dev
+    
 ##  API Documentation
 
 Visit /api-docs after running the application to access the API documentation (powered by Swagger).
