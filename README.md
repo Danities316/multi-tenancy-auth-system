@@ -83,7 +83,7 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 
 ## Configuration
 1. Create a .env File:
-```bash
+ ```bash
  # General
 PORT=3000
 DB_STRATEGY=database-per-tenant
