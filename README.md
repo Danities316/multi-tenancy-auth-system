@@ -38,10 +38,10 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 - **Caching**: Redis for tenant configs.
 - **Security**: Helmet, rate-limiting, JWT authentication (planned).
 
- ```bash
- [Client] --> [API (/api/v1/auth/tenant)] --> [createTenant]
+  ```bash
+  [Client] --> [API (/api/v1/auth/tenant)] --> [createTenant]
                                   |
- [Client] --> [API (/api/v1/test/tenant)] --> [resolveTenant]
+  [Client] --> [API (/api/v1/test/tenant)] --> [resolveTenant]
                                   |
                            [MongoDB (Tenant Registry)]
                                   |
@@ -69,7 +69,7 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 
 2. **Install Dependencies:**
    ```bash
-  npm install
+   npm install
 
 3. **Set Up Databases:**
    - *MongoDB:* Start locally (mongod) or use a cloud instance.
