@@ -80,7 +80,7 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
    ```bash
     mysql -u root -p -e "CREATE DATABASE supermysql;"
 
-  - Redis: Start locally (redis-server).
+- Redis: Start locally (redis-server).
 
 ## Configuration
  ```bash
@@ -117,9 +117,9 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 
 ## Usage
 1. **Start the Server:**
-   ```bash
-   npm start
-   Server runs on http://localhost:3000.
+    ```bash
+    npm start
+    Server runs on http://localhost:3000.
 
 2. **Creating a Tenant**
 - **Endpoint:** POST /api/v1/auth/tenant
