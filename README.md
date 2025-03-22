@@ -82,8 +82,8 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
   - Redis: Start locally (redis-server).
 
 ## Configuration
+ ```bash
 1. Create a .env File:
-   ```bash
    # General
      PORT=3000
      DB_STRATEGY=database-per-tenant
