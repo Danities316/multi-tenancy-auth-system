@@ -85,34 +85,34 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 1. Create a .env File:
    ```bash
    # General
-    PORT=3000
-    DB_STRATEGY=database-per-tenant
-    ENCRYPTION_KEY=your-32-character-secret-key-here
-    JWT_SECRET=your-jwt-secret
-    DATABASE_URL=mongodb://localhost:27017/thinkingDB
-    REDIS_URL=redis://localhost:6379
+     PORT=3000
+     DB_STRATEGY=database-per-tenant
+     ENCRYPTION_KEY=your-32-character-secret-key-here
+     JWT_SECRET=your-jwt-secret
+     DATABASE_URL=mongodb://localhost:27017/thinkingDB
+     REDIS_URL=redis://localhost:6379
 
    # PostgreSQL
-    POSTGRES_DB_HOST=localhost
-    POSTGRES_DB_PORT=5432
-    POSTGRES_DB_SUPERUSER=postgres
-    POSTGRES_SUPERUSER_DB_PASSWORD=yourpostgrespassword
-    POSTGRES_SUPERUSER_DB_NAME=superdb
+     POSTGRES_DB_HOST=localhost
+     POSTGRES_DB_PORT=5432
+     POSTGRES_DB_SUPERUSER=postgres
+     POSTGRES_SUPERUSER_DB_PASSWORD=yourpostgrespassword
+     POSTGRES_SUPERUSER_DB_NAME=superdb
 
    # MySQL
-    DB_HOST=localhost
-    DB_PORT=3306
-    DB_SUPERUSER=mysqluser
-    SUPERUSER_DB_PASSWORD=yourmysqlpassword
-    SUPERUSER_DB_NAME=supermysql
+     DB_HOST=localhost
+     DB_PORT=3306
+     DB_SUPERUSER=mysqluser
+     SUPERUSER_DB_PASSWORD=yourmysqlpassword
+     SUPERUSER_DB_NAME=supermysql
 
 2. Verify Environment:
    Ensure all services are running:
-    ```bash
-    mongo --version
-    psql --version
-    mysql --version
-    redis-cli PING  # Should return "PONG"
+   ```bash
+   mongo --version
+   psql --version
+   mysql --version
+   redis-cli PING  # Should return "PONG"
 
 ## Usage
 1. **Start the Server:**
