@@ -76,7 +76,7 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
    - *PostgreSQL:* Install and create a superuser database (superdb).
    ```bash
    psql -U postgres -c "CREATE DATABASE superdb;"
-   - **MySQL:** Install and create a superuser database (supermysql).  
+  - **MySQL:** Install and create a superuser database (supermysql).  
    ```bash
     mysql -u root -p -e "CREATE DATABASE supermysql;"
 
