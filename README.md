@@ -1,147 +1,228 @@
-# Multi-Tenancy Authentication System
+# TenantAuth - Multi-Tenancy Authentication System
 
-An open-source, multi-tenancy authentication system built with Node.js, designed to support MongoDB, PostgreSQL, and MySQL. This system provides tenant-specific user authentication, role-based access control (RBAC), and a modular architecture for extensibility.
+A scalable, multi-tenant authentication system built with Node.js, supporting MongoDB, PostgreSQL, and MySQL databases with a database-per-tenant or shared-database strategy. Designed for THINKING 2025, it integrates Redis caching, Sequelize/Knex for database management, and lays the groundwork for passwordless auth, AI-driven security, and decentralized identity (DID).
 
----
+## Table of Contents
+
+- [Features](#features)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+  - [Creating a Tenant](#creating-a-tenant)
+  - [Resolving a Tenant](#resolving-a-tenant)
+  - [Testing with Postman](#testing-with-postman)
+- [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
-- **Multi-Tenancy Support**:
-  - Database-per-tenant or shared-database strategies.
-  - Tenant isolation and configuration management.
+- **Multi-Database Support**: MongoDB, PostgreSQL, and MySQL with dynamic adapter selection.
+- **Tenant Isolation**: Configurable database-per-tenant or shared-database strategies.
+- **Centralized Tenant Registry**: Tenant metadata stored in MongoDB, cached in Redis.
+- **Security**: Password encryption with bcrypt, encrypted configs with AES-256.
+- **Scalability**: Redis caching for fast tenant resolution.
+- **Extensibility**: Hooks for passwordless auth (FIDO2), AI-driven tenant prediction (TensorFlow.js), and DID.
+- **API-Driven**: RESTful endpoints for tenant creation and resolution.
 
-- **Authentication**:
-  - JWT-based stateless authentication.
-  - Secure user registration and password management with bcrypt.
+## Architecture
 
-- **Role-Based Access Control (RBAC)**:
-  - Tenant-specific roles and permissions.
-  - Middleware for permission validation.
+- **Core**: Node.js with Express.js.
+- **Databases**:
+  - MongoDB: Tenant configurations (Tenant collection).
+  - PostgreSQL/MySQL: Tenant-specific data (User, Roles tables).
+- **Adapters**: Custom `DatabaseAdapter` classes (`MongoDBAdapter`, `PostgreSQLAdapter`, `MySQLAdapter`) using Knex.js (raw SQL) and Sequelize (ORM).
+- **Middleware**: `resolveTenant` for tenant context resolution.
+- **Caching**: Redis for tenant configs.
+- **Security**: Helmet, rate-limiting, JWT authentication (planned).
 
-- **Database Compatibility**:
-  - Supports MongoDB, PostgreSQL, and MySQL.
-  - Dynamic database connection management.
+ ```bash
+[Client] --> [API (/api/v1/auth/tenant)] --> [createTenant]
+                                  |
+[Client] --> [API (/api/v1/test/tenant)] --> [resolveTenant]
+                                  |
+                           [MongoDB (Tenant Registry)]
+                                  |
+                         [Redis (Cached Configs)]
+                                  |
+                  [PostgreSQL/MySQL (Tenant DBs)]
 
-- **Extensibility**:
-  - Modular architecture for easy customization and scalability.
-  - Easily add support for additional databases or authentication strategies.
 
----
+## Prerequisites
 
-## Getting Started
+- Node.js: v18.x or higher
+- MongoDB: v5.x or higher
+- PostgreSQL: v15.x or higher
+- MySQL: v8.x or higher
+- Redis: v7.x or higher
+- Postman: For API testing
 
-Follow these steps to set up the project locally.
+## Installation
 
-### Prerequisites
+1. **Clone the Repository:**
 
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v16 or higher)
-- [Docker](https://www.docker.com/) (for optional containerized deployment)
-- A running instance of MongoDB, PostgreSQL, or MySQL (can be local or hosted)
-
-### Installation
-
-1. Clone the repository:
    ```bash
-   git clone https://github.com/Danities316/multi-tenancy-auth-system.git
-   cd multi-tenancy-auth-system
-2.  Install dependencies:
-    ```bash
-    npm install
-3.  Set up your .env file:
-    -  Copy the .env.example file and rename it to .env.
-    -  Configure the environment variables for your setup.
-4.  Run database migrations:
-    ```bash
-      npm run migrate
-5.  Start the application:
-    `npm start`
+   git clone [https://github.com/yourusername/multi-tenant-auth-system.git](https://github.com/yourusername/multi-tenant-auth-system.git)
+   cd multi-tenant-auth-system
 
- ## 📌 Setting Up Your Database
- This open-source project supports **MongoDB, PostgreSQL, and MySQL**. You can configure your preferred database in the `.env` file.
- ### 1️⃣ **Choose Your Database**
- Edit `.env` and set your database type:
- ```bash
- DB_TYPE=postgres DB_HOST=localhost DB_USER=myuser DB_PASSWORD=mypassword DB_NAME=mydatabase
- ```bash
- ### 2️⃣ **Start the Server**
- Run: npm run dev
+2. **Install Dependencies:**
+   ```bash
+  npm install
 
- ```bash
- ### 3️⃣ **Multi-Tenant Support**
- If you're running **multi-tenant mode**, send requests with an **`X-Tenant-ID`** header.
- **Example:**
- X-Tenant-ID: tenant123
+3. **Set Up Databases:**
+   - *MongoDB:* Start locally (mongod) or use a cloud instance.
+   - *PostgreSQL:* Install and create a superuser database (superdb).
+   ```bash
+   psql -U postgres -c "CREATE DATABASE superdb;"
+  - MySQL: Install and create a superuser database (supermysql).
+  ```bash
+  mysql -u root -p -e "CREATE DATABASE supermysql;"
+  - Redis: Start locally (redis-server).
 
-npm run dev
-    
-##  API Documentation
+## Configuration
+1. Create a .env File:
+```bash
+ # General
+PORT=3000
+DB_STRATEGY=database-per-tenant
+ENCRYPTION_KEY=your-32-character-secret-key-here
+JWT_SECRET=your-jwt-secret
+DATABASE_URL=mongodb://localhost:27017/thinkingDB
+REDIS_URL=redis://localhost:6379
 
-Visit /api-docs after running the application to access the API documentation (powered by Swagger).
+# PostgreSQL
+POSTGRES_DB_HOST=localhost
+POSTGRES_DB_PORT=5432
+POSTGRES_DB_SUPERUSER=postgres
+POSTGRES_SUPERUSER_DB_PASSWORD=yourpostgrespassword
+POSTGRES_SUPERUSER_DB_NAME=superdb
+
+# MySQL
+DB_HOST=localhost
+DB_PORT=3306
+DB_SUPERUSER=mysqluser
+SUPERUSER_DB_PASSWORD=yourmysqlpassword
+SUPERUSER_DB_NAME=supermysql
+
+2. Verify Environment:
+   Ensure all services are running:
+   ```bash
+   mongo --version
+   psql --version
+   mysql --version
+   redis-cli PING  # Should return "PONG"
 
 ## Usage
-
-### Example: Setting Up a Tenant
-1.  Create a tenant using the /tenants endpoint.
-2.  Use the X-Tenant-ID header or subdomain to interact with tenant-specific resources.
-
-###  Example: User Authentication
--  Register a new user using the /auth/register endpoint.
--  Log in using /auth/login to receive a JWT.
--  Use the JWT for subsequent requests to authenticate and validate roles.
-
-##  Project Structure
-    ```bash
-    
-    ├── config/              # Configuration files (e.g., database, environment)
-    ├── models/              # Database models for tenants, users, roles, etc.
-    ├── adapters/            # Database adapters (MongoDB, PostgreSQL, MySQL)
-    ├── services/            # Business logic for auth, tenants, RBAC
-    ├── routes/              # API route definitions
-    ├── middleware/          # Middleware (auth, tenant resolution, etc.)
-    ├── utils/               # Utility functions and helpers
-    ├── tests/               # Unit and integration tests
-    ├── docs/                # API documentation and guides
-    ├── .github/             # GitHub templates and workflows
-    └── README.md            # Project README
----
-##  Contributing
-Contributions are welcome! Please follow these steps:
-1.  Fork the repository.
-2.  Create a new branch for your feature or fix:
-     ```bash
-    git checkout -b feature-name
-4.  Commit your changes:
-    ```bash
-    git commit -m "Add your message here"
-6. Push to your branch:
+1. **Start the Server:**
    ```bash
-     git push origin feature-name
-7.  Open a pull request.
+   npm start
+   Server runs on http://localhost:3000.
 
-For more details, see [CONTRIBUTING.md](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/README).
+2. **Creating a Tenant**
+- **Endpoint:** POST /api/v1/auth/tenant
+- Payload (example for PostgreSQL):
+  ```bash
+  {
+    "name": "PgTenant",
+    "dbType": "postgresql",
+    "host": "localhost",
+    "username": "pgUser",
+    "email": "pg@tenant.com",
+    "password": "pgPass123",
+    "database": "pgTenantDB"
+  }
 
----
-## Roadmap
+- **Response:**
+  ```bash
+  {
+    "tenantId": "pgUser_<nanoid>",
+    "name": "PgTenant",
+    "dbType": "postgresql",
+    "email": "pg@tenant.com",
+    "host": "localhost",
+    "dbStrategy": "database-per-tenant",
+    "username": "pgUser",
+    "password": "<hashed>",
+    "database": "pgUser_<nanoid>"
+  }
+## Resolving a Tenant
+- **Endpoint:** GET /api/v1/test/tenant
+-  Headers:
+   - x-tenant-id: pgUser_<nanoid> (from creation response)
+-  **Response:**
+   ```bash
+    {
+  "tenant": {
+    "dbType": "postgresql",
+    "host": "localhost",
+    "username": "pgUser",
+    "password": "<encrypted>",
+    "database": "pgUser_<nanoid>",
+    "port": "5432",
+    "authMethods": ["password"],
+    "theme": {},
+    "didEnabled": false
+  },
+  "dbConnected": true
+  }
 
-Here’s what’s planned for future releases:
+## Testing with Postman
+1. Import Collection:
+  Copy this JSON into a .json file and import into Postman:
+  ```bash
+  {
+  "info": {
+    "name": "THINKING 2025 Tests",
+    "schema": "[https://schema.getpostman.com/json/collection/v2.1.0/collection.json]    (https://schema.getpostman.com/json/collection/v2.1.0/collection.json)"
+  },
+  "item": [
+    {
+      "name": "Create PostgreSQL Tenant",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"PgTenant\", \"dbType\": \"postgresql\", \"host\": \"localhost\", \"username\": \"pgUser\", \"email\": \"pg@tenant.com\", \"password\": \"pgPass123\", \"database\": \"pgTenantDB\"}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "http://localhost:3000/api/v1/auth/tenant"
+      }
+    },
+    {
+      "name": "Resolve Tenant",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "x-tenant-id", "value": "pgUser_<nanoid>" }
+        ],
+        "url": "http://localhost:3000/api/v1/test/tenant"
+      }
+    }
+  ]
+}
 
-Add support for additional databases (e.g., SQLite).
--  Implement multi-factor authentication (MFA).
--  Add email notifications for tenant management.
-Check the [issues](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/issue) page to see what’s in progress.
----
-## License
+2. Run Tests:
+Update the x-tenant-id with the tenantId from the creation response.
+Check console logs and database state for confirmation.
 
-This project is licensed under the [MIT License](https://github.com/Danities316/multi-tenancy-auth-system/edit/main/issue).
----
-##  Acknowledgements
--  [Node.js](https://nodejs.org/en)
--  [Express.js](https://expressjs.com/)
--  [Knex.js](https://knexjs.org/)
--  [JWT](https://jwt.io/)
+## Future Enhancements
+- **Passwordless Authentication:** Integrate FIDO2/WebAuthn for loginTenant.
+- AI-Driven Security: Use TensorFlow.js in resolveTenant to predict tenants without x-tenant-id.
+- Decentralized Identity (DID): Add blockchain-based identity verification.
+- Rate Limiting: Enhance express-rate-limit for tenant-specific quotas.
+- Monitoring: Add logging with Winston or Prometheus.
 
----
-##  Feedback and Support
-For feedback or support, please open an issue or start a discussion in the repository.
+## Contributing
+1. Fork the repository.
+2. Create a feature branch (git checkout -b feature/new-feature).
+3. Commit changes (git commit -m "Add new feature").
+4. Push to the branch (git push origin feature/new-feature).
+5. Open a Pull Request.
+
+License
+This project is licensed under the MIT License. See LICENSE for details.
+
 
