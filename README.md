@@ -61,150 +61,181 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 
 ## Installation
 
-1. **Clone the Repository:**
+1.  **Clone the Repository:**
 
-   ```bash
-   git clone [https://github.com/yourusername/multi-tenant-auth-system.git](https://github.com/yourusername/multi-tenant-auth-system.git)
-   cd multi-tenant-auth-system
+    ```bash
+    git clone [https://github.com/yourusername/multi-tenant-auth-system.git](https://github.com/yourusername/multi-tenant-auth-system.git)
+    cd multi-tenant-auth-system
+    ```
 
-2. **Install Dependencies:**
-   ```bash
-   npm install
+2.  **Install Dependencies:**
 
-3. **Set Up Databases:**
-   - *MongoDB:* Start locally (mongod) or use a cloud instance.
-   - *PostgreSQL:* Install and create a superuser database (superdb).
-   ```bash
-   psql -U postgres -c "CREATE DATABASE superdb;"
-  - **MySQL:** Install and create a superuser database (supermysql).  
-   ```bash
-    mysql -u root -p -e "CREATE DATABASE supermysql;"
+    ```bash
+    npm install
+    ```
 
-  - Redis: Start locally (redis-server).
+3.  **Set Up Databases:**
+
+    * **MongoDB:** Start locally (`mongod`) or use a cloud instance.
+    * **PostgreSQL:** Install and create a superuser database (`superdb`).
+
+        ```bash
+        psql -U postgres -c "CREATE DATABASE superdb;"
+        ```
+
+    * **MySQL:** Install and create a superuser database (`supermysql`).
+
+        ```bash
+        mysql -u root -p -e "CREATE DATABASE supermysql;"
+        ```
+
+    * **Redis:** Start locally (`redis-server`).
 
 ## Configuration
- ```bash
-1. Create a .env File:
-   # General
-     PORT=3000
-     DB_STRATEGY=database-per-tenant
-     ENCRYPTION_KEY=your-32-character-secret-key-here
-     JWT_SECRET=your-jwt-secret
-     DATABASE_URL=mongodb://localhost:27017/thinkingDB
-     REDIS_URL=redis://localhost:6379
 
-   # PostgreSQL
-     POSTGRES_DB_HOST=localhost
-     POSTGRES_DB_PORT=5432
-     POSTGRES_DB_SUPERUSER=postgres
-     POSTGRES_SUPERUSER_DB_PASSWORD=yourpostgrespassword
-     POSTGRES_SUPERUSER_DB_NAME=superdb
+1.  **Create a `.env` File:**
 
-   # MySQL
-     DB_HOST=localhost
-     DB_PORT=3306
-     DB_SUPERUSER=mysqluser
-     SUPERUSER_DB_PASSWORD=yourmysqlpassword
-     SUPERUSER_DB_NAME=supermysql
+    ```plaintext
+    # General
+    PORT=3000
+    DB_STRATEGY=database-per-tenant
+    ENCRYPTION_KEY=your-32-character-secret-key-here
+    JWT_SECRET=your-jwt-secret
+    DATABASE_URL=mongodb://localhost:27017/thinkingDB
+    REDIS_URL=redis://localhost:6379
 
-2. Verify Environment:
-   Ensure all services are running:
-   ```bash
-   mongo --version
-   psql --version
-   mysql --version
-   redis-cli PING  # Should return "PONG"
+    # PostgreSQL
+    POSTGRES_DB_HOST=localhost
+    POSTGRES_DB_PORT=5432
+    POSTGRES_DB_SUPERUSER=postgres
+    POSTGRES_SUPERUSER_DB_PASSWORD=yourpostgrespassword
+    POSTGRES_SUPERUSER_DB_NAME=superdb
+
+    # MySQL
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_SUPERUSER=mysqluser
+    SUPERUSER_DB_PASSWORD=yourmysqlpassword
+    SUPERUSER_DB_NAME=supermysql
+    ```
+
+2.  **Verify Environment:**
+
+    Ensure all services are running:
+
+    ```bash
+    mongo --version
+    psql --version
+    mysql --version
+    redis-cli PING  # Should return "PONG"
+    ```
 
 ## Usage
-1. **Start the Server:**
+
+1.  **Start the Server:**
+
     ```bash
     npm start
-    Server runs on http://localhost:3000.
+    ```
 
-2. **Creating a Tenant**
-- **Endpoint:** POST /api/v1/auth/tenant
-- Payload (example for PostgreSQL):
-  ```bash
-  {
-    "name": "PgTenant",
-    "dbType": "postgresql",
-    "host": "localhost",
-    "username": "pgUser",
-    "email": "pg@tenant.com",
-    "password": "pgPass123",
-    "database": "pgTenantDB"
-  }
+    Server runs on `http://localhost:3000`.
 
-- **Response:**
-  ```bash
-  {
-    "tenantId": "pgUser_<nanoid>",
-    "name": "PgTenant",
-    "dbType": "postgresql",
-    "email": "pg@tenant.com",
-    "host": "localhost",
-    "dbStrategy": "database-per-tenant",
-    "username": "pgUser",
-    "password": "<hashed>",
-    "database": "pgUser_<nanoid>"
-  }
+2.  **Creating a Tenant:**
+
+    * **Endpoint:** `POST /api/v1/auth/tenant`
+    * **Payload (example for PostgreSQL):**
+
+        ```json
+        {
+          "name": "PgTenant",
+          "dbType": "postgresql",
+          "host": "localhost",
+          "username": "pgUser",
+          "email": "pg@tenant.com",
+          "password": "pgPass123",
+          "database": "pgTenantDB"
+        }
+        ```
+
+    * **Response:**
+
+        ```json
+        {
+          "tenantId": "pgUser_<nanoid>",
+          "name": "PgTenant",
+          "dbType": "postgresql",
+          "email": "pg@tenant.com",
+          "host": "localhost",
+          "dbStrategy": "database-per-tenant",
+          "username": "pgUser",
+          "password": "<hashed>",
+          "database": "pgUser_<nanoid>"
+        }
+        ```
+
 ## Resolving a Tenant
-- **Endpoint:** GET /api/v1/test/tenant
--  Headers:
-   - x-tenant-id: pgUser_<nanoid> (from creation response)
--  **Response:**
-   ```bash
+
+* **Endpoint:** `GET /api/v1/test/tenant`
+* **Headers:**
+    * `x-tenant-id`: `pgUser_<nanoid>` (from creation response)
+* **Response:**
+
+    ```json
     {
-  "tenant": {
-    "dbType": "postgresql",
-    "host": "localhost",
-    "username": "pgUser",
-    "password": "<encrypted>",
-    "database": "pgUser_<nanoid>",
-    "port": "5432",
-    "authMethods": ["password"],
-    "theme": {},
-    "didEnabled": false
-  },
-  "dbConnected": true
-  }
+      "tenant": {
+        "dbType": "postgresql",
+        "host": "localhost",
+        "username": "pgUser",
+        "password": "<encrypted>",
+        "database": "pgUser_<nanoid>",
+        "port": "5432",
+        "authMethods": ["password"],
+        "theme": {},
+        "didEnabled": false
+      },
+      "dbConnected": true
+    }
+    ```
 
 ## Testing with Postman
-1. Import Collection:
-  Copy this JSON into a .json file and import into Postman:
-  ```bash
-  {
-  "info": {
-    "name": "THINKING 2025 Tests",
-    "schema": "[https://schema.getpostman.com/json/collection/v2.1.0/collection.json]    (https://schema.getpostman.com/json/collection/v2.1.0/collection.json)"
-  },
-  "item": [
-    {
-      "name": "Create PostgreSQL Tenant",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"name\": \"PgTenant\", \"dbType\": \"postgresql\", \"host\": \"localhost\", \"username\": \"pgUser\", \"email\": \"pg@tenant.com\", \"password\": \"pgPass123\", \"database\": \"pgTenantDB\"}",
-          "options": { "raw": { "language": "json" } }
-        },
-        "url": "http://localhost:3000/api/v1/auth/tenant"
-      }
-    },
-    {
-      "name": "Resolve Tenant",
-      "request": {
-        "method": "GET",
-        "header": [
-          { "key": "x-tenant-id", "value": "pgUser_<nanoid>" }
-        ],
-        "url": "http://localhost:3000/api/v1/test/tenant"
-      }
-    }
-  ]
-}
 
+1.  **Import Collection:**
+
+    Copy this JSON into a `.json` file and import into Postman:
+
+    ```json
+    {
+      "info": {
+        "name": "THINKING 2025 Tests",
+        "schema": "[https://schema.getpostman.com/json/collection/v2.1.0/collection.json](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)"
+      },
+      "item": [
+        {
+          "name": "Create PostgreSQL Tenant",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"PgTenant\", \"dbType\": \"postgresql\", \"host\": \"localhost\", \"username\": \"pgUser\", \"email\": \"pg@tenant.com\", \"password\": \"pgPass123\", \"database\": \"pgTenantDB\"}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "http://localhost:3000/api/v1/auth/tenant"
+          }
+        },
+        {
+          "name": "Resolve Tenant",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "pgUser_<nanoid>" }
+            ],
+            "url": "http://localhost:3000/api/v1/test/tenant"
+          }
+        }
+      ]
+    }
+    ```
 2. Run Tests:
 Update the x-tenant-id with the tenantId from the creation response.
 Check console logs and database state for confirmation.
