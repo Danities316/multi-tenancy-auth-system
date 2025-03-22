@@ -39,9 +39,9 @@ A scalable, multi-tenant authentication system built with Node.js, supporting Mo
 - **Security**: Helmet, rate-limiting, JWT authentication (planned).
 
  ```bash
-[Client] --> [API (/api/v1/auth/tenant)] --> [createTenant]
+ [Client] --> [API (/api/v1/auth/tenant)] --> [createTenant]
                                   |
-[Client] --> [API (/api/v1/test/tenant)] --> [resolveTenant]
+ [Client] --> [API (/api/v1/test/tenant)] --> [resolveTenant]
                                   |
                            [MongoDB (Tenant Registry)]
                                   |
